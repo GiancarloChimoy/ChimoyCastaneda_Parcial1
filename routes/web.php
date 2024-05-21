@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CursoController;
+use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('welcome');
@@ -10,10 +12,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
-    Route::get('/dashboard/search', [DashboardController::class, 'search'])->name('dashboard.search');
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::resource('cursos', CursoController::class)->except(['index', 'show']);
 });
 
