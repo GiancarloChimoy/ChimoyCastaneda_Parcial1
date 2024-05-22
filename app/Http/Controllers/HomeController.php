@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Curso;
+use App\Models\Vehiculo;
 
 class HomeController extends Controller
 {
@@ -18,24 +18,24 @@ class HomeController extends Controller
 
         // Si hay una búsqueda, filtra los cursos por nombre, código o ID; de lo contrario, obtiene todos los cursos
         if ($search) {
-            $cursos = Curso::query()
-                ->where('nombre', 'LIKE', "%{$search}%")
-                ->orWhere('codigo', $search)
+            $vehiculos = Vehiculo::query()
+                ->where('placa', 'LIKE', "%{$search}%")
+                ->orWhere('propietario', $search)
                 ->orWhere('id', $search)
                 ->get();
 
             // Verifica si se encontraron cursos
-            if ($cursos->isEmpty()) {
-                $mensaje = "Curso no encontrado o inexistente";
+            if ($vehiculos->isEmpty()) {
+                $mensaje = "Vehiculo no encontrado o inexistente";
             } else {
                 $mensaje = "";
             }
         } else {
-            $cursos = Curso::all();
+            $vehiculos = Vehiculo::all();
             $mensaje = "";
         }
 
-        return view('home', compact('cursos', 'search', 'mensaje'));
+        return view('home', compact('vehiculos', 'search', 'mensaje'));
     }
 }
 

@@ -29,30 +29,30 @@
                     @endif
 
                     <!-- Botón para abrir el modal de registro -->
-                    <button type="button" class="btn btn-success mb-3" data-toggle="modal" data-target="#cursoModal" onclick="openCreateModal()">Registrar Curso</button>
+                    <button type="button" class="btn btn-success mb-3" data-toggle="modal" data-target="#vehiculoModal" onclick="openCreateModal()">Registrar Vehículo</button>
 
-                    <!-- Tabla de cursos -->
+                    <!-- Tabla de vehículos -->
                     <div class="table-responsive">
-                        <table class="table table-striped" id="coursesTable">
+                        <table class="table table-striped" id="vehiculosTable">
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Código</th>
-                                    <th>Nombre del Curso</th>
-                                    <th>Créditos</th>
+                                    <th>Placa</th>
+                                    <th>Modelo</th>
+                                    <th>Propietario</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($cursos as $curso)
+                                @foreach ($vehiculos as $vehiculo)
                                     <tr>
-                                        <td>{{ $curso->id }}</td>
-                                        <td>{{ $curso->codigo }}</td>
-                                        <td>{{ $curso->nombre }}</td>
-                                        <td>{{ $curso->numero_creditos }}</td>
+                                        <td>{{ $vehiculo->id }}</td>
+                                        <td>{{ $vehiculo->placa }}</td>
+                                        <td>{{ $vehiculo->modelo }}</td>
+                                        <td>{{ $vehiculo->propietario }}</td>
                                         <td>
-                                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#cursoModal" onclick="openEditModal({{ $curso->toJson() }})">Editar</button>
-                                            <form action="{{ route('cursos.destroy', $curso->id) }}" method="POST" class="d-inline-block" onsubmit="return confirm('¿Estás seguro de que quieres eliminar este curso?');">
+                                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#vehiculoEditModal" onclick="openEditModal({{ $vehiculo->toJson() }})">Editar</button>
+                                            <form action="{{ route('vehiculos.destroy', $vehiculo->id) }}" method="POST" class="d-inline-block" onsubmit="return confirm('¿Estás seguro de que quieres eliminar este vehículo?');">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
@@ -69,22 +69,45 @@
     </div>
 </div>
 
-<!-- Incluir el modal de formulario -->
+<!-- Incluir el modal de registro -->
 @include('cursos.form')
+
+<!-- Incluir el modal de edición -->
+@include('cursos.editForm')
 
 @endsection
 
 @section('scripts')
 <script>
 function openCreateModal() {
-    $('#modalTitle').text('Registrar Curso');
-    $('#cursoForm').attr('action', '{{ route('cursos.store') }}');
-    $('#cursoForm').trigger('reset');
-    $('#cursoModalLabel').text('Registrar Curso');
-    $('#submitBtn').text('Registrar');
+    $('#vehiculoModalLabel').text('Registrar Nuevo Vehículo');
+    $('#vehiculoForm').attr('action', '{{ route('vehiculos.store') }}');
+    $('#vehiculoForm').trigger('reset');
+    $('#vehiculoModal').modal('show');
 }
 
+// Función para abrir el modal de edición y llenar los campos
+function openEditModal(vehiculo) {
+    $('#vehiculoEditModalLabel').text('Editar Vehículo');
+    $('#vehiculoEditForm').attr('action', '/vehiculos/' + vehiculo.id);
+    $('#editPlaca').val(vehiculo.placa);
+    $('#editModelo').val(vehiculo.modelo);
+    $('#editPropietario').val(vehiculo.propietario);
+    $('#editSubmitBtn').text('Actualizar');
+    $('#vehiculoEditModal').modal('show');
+}
 
+$(document).ready(function() {
+    // Al hacer submit en el formulario de registro, cerrar el modal
+    $('#vehiculoForm').on('submit', function() {
+        $('#vehiculoModal').modal('hide');
+    });
+
+    // Al hacer submit en el formulario de edición, cerrar el modal
+    $('#vehiculoEditForm').on('submit', function() {
+        $('#vehiculoEditModal').modal('hide');
+    });
+});
 </script>
 @endsection
 

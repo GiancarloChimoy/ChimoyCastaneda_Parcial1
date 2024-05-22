@@ -1,28 +1,26 @@
-<div class="modal fade" id="cursoModal" tabindex="-1" role="dialog" aria-labelledby="cursoModalLabel" aria-hidden="true">
+<div class="modal fade" id="vehiculoModal" tabindex="-1" role="dialog" aria-labelledby="vehiculoModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="cursoModalLabel">
-                    Registrar Nuevo Curso
-                </h5>
+                <h5 class="modal-title" id="vehiculoModalLabel">Registrar Nuevo Vehiculo</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form id="cursoForm" method="POST" action="{{ route('cursos.store') }}">
+                <form id="vehiculoForm" method="POST" action="{{ route('vehiculos.store') }}">
                     @csrf
                     <div class="form-group">
-                        <label for="nombre">Nombre del Curso</label>
-                        <input type="text" name="nombre" class="form-control" id="nombre" required>
+                        <label for="placa">Placa</label>
+                        <input type="text" name="placa" class="form-control" id="placa" required>
                     </div>
                     <div class="form-group">
-                        <label for="codigo">Código</label>
-                        <input type="text" name="codigo" class="form-control" id="codigo" required>
+                        <label for="modelo">Modelo</label>
+                        <input type="text" name="modelo" class="form-control" id="modelo" required>
                     </div>
                     <div class="form-group">
-                        <label for="numero_creditos">Número de Créditos</label>
-                        <input type="number" name="numero_creditos" class="form-control" id="numero_creditos" required>
+                        <label for="propietario">Propietario</label>
+                        <input type="text" name="propietario" class="form-control" id="propietario" required>
                     </div>
                     <button type="submit" class="btn btn-primary" id="submitBtn">Registrar</button>
                 </form>
